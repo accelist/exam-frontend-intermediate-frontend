@@ -44,69 +44,69 @@ const CreateLoginForm: React.FC = () => {
         reset();
     }
     return <Space className=" border-2 border-black" direction="vertical">
-            <Head>
-                <title>Login</title>
-            </Head>
-            <Row>
-                <Col span={24}>
-                    <h2 className="text-xl justify-left">Login</h2>
-                </Col>
-            </Row>
-            <Row>
-                <form onSubmit={handleSubmit(onFormSubmit)}>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        id="email"
-                                        placeholder="Enter Email"
-                                        addonBefore="Email: "
-                                        {...field}
-                                    />
-                                )}
-                            />
-                            {errors.email && <span className="text-red-500">{errors.email.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Controller
-                                name="password"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        id="password"
-                                        placeholder="Enter Password"
-                                        addonBefore="Password: "
-                                        type="password"
-                                        {...field}
-                                    />
-                                )}
-                            />
-                                {errors.password && <span className="text-red-500">{errors.password?.message}</span>}
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Button type="primary" htmlType="submit" className="bg-blue-500">
-                                Login
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Button type="default" href='/authentication/register' className="bg-blue-500">
-                                Register
-                            </Button>
-                        </Col>
-                    </Row>
-                </form>
-            </Row>
-        </Space>
+        <Head>
+            <title>Login</title>
+        </Head>
+        <Row>
+            <Col span={24}>
+                <h2 className="text-xl justify-left">Login</h2>
+            </Col>
+        </Row>
+        <Row>
+            <form onSubmit={handleSubmit(onFormSubmit)}>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    id="email"
+                                    placeholder="Enter Email"
+                                    addonBefore="Email: "
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.email && <span className="text-red-500">{errors.email.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    id="password"
+                                    placeholder="Enter Password"
+                                    addonBefore="Password: "
+                                    type="password"
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.password && <span className="text-red-500">{errors.password?.message}</span>}
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Button type="primary" htmlType="submit" className="bg-blue-500">
+                            Login
+                        </Button>
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Button type="default" href='/authentication/register' className="bg-blue-500">
+                            Register
+                        </Button>
+                    </Col>
+                </Row>
+            </form>
+        </Row>
+    </Space>
 }
 
 const LoginPage: Page = () => {

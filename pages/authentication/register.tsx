@@ -53,145 +53,145 @@ const CreateRegisterForm: React.FC = () => {
      * Handles radio button change
      * @param e 
      */
-    function genderOnChange(e: RadioChangeEvent){
+    function genderOnChange(e: RadioChangeEvent) {
         setGender(e.target.value);
     }
     return <Space className=" border-2 border-black" direction="vertical">
-            <Head>
-                <title>Login</title>
-            </Head>
-            {/* {contextHolder} */}
-            <Row>
-                <Col span={24}>
-                    <h2 className="text-xl justify-left">Register</h2>
-                </Col>
-            </Row>
-            <Row>
-                <form onSubmit={handleSubmit(onFormSubmit)}>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        id="email"
-                                        placeholder="Enter Email"
-                                        addonBefore="Email: "
-                                        {...field}
-                                    />
-                                )}
-                            />
-                            {errors.email && <span className="text-red-500">{errors.email.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <p>Date: </p>
-                            <Controller
-                                name="dateOfBirth"
-                                control={control}
-                                render={() => (
-                                    //TODO figure out why age validation not working
-                                    <DatePicker 
-                                        id="dateOfBirth"
-                                    />
-                                )}
-                            />
-                            {errors.dateOfBirth && <span className="text-red-500">{errors.dateOfBirth.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <p>Gender: </p>
-                            <Controller
-                                name="gender"
-                                control={control}
-                                render={() => (
-                                    <Radio.Group onChange={genderOnChange} value ={gender}>
-                                        <Radio value={"M"}>Male</Radio>
-                                        <Radio value={"F"}>Female</Radio>
-                                        <Radio value={"Other"}>Other</Radio>
-                                    </Radio.Group>
-                                )}
-                            />
-                            {errors.gender && <span className="text-red-500">{errors.gender.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <p>Address: </p>
-                            <Controller
-                                name="address"
-                                control={control}
-                                render={(field) => (
-                                    // Tried to use TextArea, but kept returning error: SyntaxError: Cannot use import statement outside a module
-                                    <Input
-                                        id="address"
-                                        addonBefore="Address: "
-                                        {...field}
-                                    />
-                                )}
-                            />
-                            {errors.address && <span className="text-red-500">{errors.address.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Controller
-                                name="username"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        id="username"
-                                        addonBefore="Username: "
-                                        {...field}
-                                    />
-                                )}
-                            />
-                            {errors.username && <span className="text-red-500">{errors.username.message}</span>
-                            }
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Controller
-                                name="password"
-                                control={control}
-                                render={({ field }) => (
-                                    <Input
-                                        id="password"
-                                        placeholder="Enter Password"
-                                        addonBefore="Password: "
-                                        type="password"
-                                        {...field}
-                                    />
-                                )}
-                            />
-                                {errors.password && <span className="text-red-500">{errors.password?.message}</span>}
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Button type="primary" htmlType="submit" className="bg-blue-500">
-                                Register
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                        <Col span={24}>
-                            <Button type="default" href='/authentication/login' className="bg-blue-500">
-                                Login
-                            </Button>
-                        </Col>
-                    </Row>
-                </form>
-            </Row>
-        </Space>
+        <Head>
+            <title>Login</title>
+        </Head>
+        {/* {contextHolder} */}
+        <Row>
+            <Col span={24}>
+                <h2 className="text-xl justify-left">Register</h2>
+            </Col>
+        </Row>
+        <Row>
+            <form onSubmit={handleSubmit(onFormSubmit)}>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    id="email"
+                                    placeholder="Enter Email"
+                                    addonBefore="Email: "
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.email && <span className="text-red-500">{errors.email.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <p>Date: </p>
+                        <Controller
+                            name="dateOfBirth"
+                            control={control}
+                            render={() => (
+                                //TODO figure out why age validation not working
+                                <DatePicker
+                                    id="dateOfBirth"
+                                />
+                            )}
+                        />
+                        {errors.dateOfBirth && <span className="text-red-500">{errors.dateOfBirth.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <p>Gender: </p>
+                        <Controller
+                            name="gender"
+                            control={control}
+                            render={() => (
+                                <Radio.Group onChange={genderOnChange} value={gender}>
+                                    <Radio value={"M"}>Male</Radio>
+                                    <Radio value={"F"}>Female</Radio>
+                                    <Radio value={"Other"}>Other</Radio>
+                                </Radio.Group>
+                            )}
+                        />
+                        {errors.gender && <span className="text-red-500">{errors.gender.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <p>Address: </p>
+                        <Controller
+                            name="address"
+                            control={control}
+                            render={(field) => (
+                                // Tried to use TextArea, but kept returning error: SyntaxError: Cannot use import statement outside a module
+                                <Input
+                                    id="address"
+                                    addonBefore="Address: "
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.address && <span className="text-red-500">{errors.address.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Controller
+                            name="username"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    id="username"
+                                    addonBefore="Username: "
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.username && <span className="text-red-500">{errors.username.message}</span>
+                        }
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    id="password"
+                                    placeholder="Enter Password"
+                                    addonBefore="Password: "
+                                    type="password"
+                                    {...field}
+                                />
+                            )}
+                        />
+                        {errors.password && <span className="text-red-500">{errors.password?.message}</span>}
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Button type="primary" htmlType="submit" className="bg-blue-500">
+                            Register
+                        </Button>
+                    </Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                    <Col span={24}>
+                        <Button type="default" href='/authentication/login' className="bg-blue-500">
+                            Login
+                        </Button>
+                    </Col>
+                </Row>
+            </form>
+        </Row>
+    </Space>
 }
 
 const RegisterPage: Page = () => {
