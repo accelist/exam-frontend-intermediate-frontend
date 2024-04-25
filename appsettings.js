@@ -3,4 +3,5 @@ module.exports = {
     oidcIssuer: process.env['OIDC_ISSUER'] ?? '',
     oidcClientId: process.env['OIDC_CLIENT_ID'] ?? '',
     oidcScope: process.env['OIDC_SCOPE'] ?? '',
+    backEndApi: process.env['BACKEND_API_CUSTOM'] ?? '',
 };
