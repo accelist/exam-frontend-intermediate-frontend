@@ -59,13 +59,14 @@ const OrderDetail = () => {
 
     return (
         <div>
-        <h1>Order Detail</h1>
-        <p><strong>Order ID:</strong> {orderDetails.orderId}</p>
-        <p><strong>Description:</strong> {orderDetails.description}</p>
-        <p><strong>Order From:</strong> {orderDetails.orderFrom}</p>
-        <p><strong>Order To:</strong> {orderDetails.orderTo}</p>
-        <p><strong>Ordered At:</strong> {orderDetails.orderedAt}</p>
-        <p><strong>Quantity:</strong> {orderDetails.quantity}</p>
+            <h1 className="text-4xl font-bold">Order Detail</h1>
+
+            <p><strong>Order ID:</strong> {orderDetails.orderId}</p>
+            <p><strong>Description:</strong> {orderDetails.description}</p>
+            <p><strong>Order From:</strong> {orderDetails.orderFrom}</p>
+            <p><strong>Order To:</strong> {orderDetails.orderTo}</p>
+            <p><strong>Ordered At:</strong> {orderDetails.orderedAt}</p>
+            <p><strong>Quantity:</strong> {orderDetails.quantity}</p>
         </div>
     );
 };

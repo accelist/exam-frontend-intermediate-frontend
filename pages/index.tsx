@@ -172,6 +172,7 @@ const MainMenu = () => {
 
     return (
         <>
+            <h1 className="text-4xl font-bold">MyOrder</h1>
             <Table
             columns={columns}
             dataSource={data}

@@ -74,6 +74,8 @@ const UpdateOrderPage = () => {
 
     return (
         <div>
+            <h1 className="text-4xl font-bold">Update</h1>
+
             <Form form={form} layout="vertical" onFinish={onFinish}>
                 <Form.Item
                     name="description"
