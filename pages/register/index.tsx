@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { WithDefaultLayout } from '../components/DefautLayout';
-import { Page } from '../types/Page';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { DefaultApiRequestHeader } from '@/functions/DefaultApiRequestHeader';
 import { Button, Col, Input, Row, Space } from 'antd';
+import { Page } from '@/types/Page';
+import { WithDefaultLayout } from '@/components/DefautLayout';
 
 const IndexPage: Page = () => {
     const LoginFormSchema = z.object({
@@ -46,9 +46,9 @@ const IndexPage: Page = () => {
     return <Space direction="vertical" size={"middle"} style={{ display: 'flex' }}>
         <Row>
             <Col span={24}>
-                <h1>Login</h1>
-                <p>Fill in the form below to log in.</p>
-                <p><Link href={'/register'}>Or click here to go to the register page.</Link></p>
+                <h1>Register</h1>
+                <p>Fill in the form below to register.</p>
+                <p><Link href={'/'}>Or click here to go back to log in page.</Link></p>
             </Col>
         </Row>
 

@@ -102,7 +102,7 @@ const OrderIndex: React.FC = () => {
                         <FontAwesomeIcon className="text-white" icon={faMagnifyingGlass} />
                     </Link>
                     <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs" 
-                    href={`/orders/create`}>
+                    href={`/orders/edit/${product.orderId}`}>
                         <FontAwesomeIcon className="text-white" icon={faPencil} />
                     </a>
                     <Button className="bg-red-500">
@@ -124,7 +124,9 @@ const OrderIndex: React.FC = () => {
     }
 
     return<>
-        <h1>Orders</h1>
+        <h1>Order List</h1>
+        <Link className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs" 
+                    href={`/orders/create`}>Create Order</Link>
         {render()}
     </>
 }
