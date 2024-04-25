@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, DatePicker, Input, Radio, Space } from "antd";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
+import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { redirect } from 'next/navigation';
 
 const RegisterPage: Page = () => {
 
@@ -141,7 +141,7 @@ const RegisterPage: Page = () => {
 
             <Button htmlType="submit">Create account</Button>
 
-            <p>Already have an account? <a href="/login">Log in</a></p>
+            <p>Already have an account? <Link href="/login">Log in</Link></p>
 
         </Space>
 

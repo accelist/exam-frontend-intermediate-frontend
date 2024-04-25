@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
 import { Button, Input } from "antd";
+import Link from "next/link";
 
 const LoginPage: Page = () => {
 
@@ -43,7 +44,7 @@ const LoginPage: Page = () => {
             />
             {errors.password && <span className="text-red-500">{errors.password.message}</span>}
 
-            <p>Dont have an account? <a href="/register">sign up</a></p>
+            <p>Dont have an account? <Link href="/register">sign up</Link></p>
 
             <Button>Log in</Button>
 

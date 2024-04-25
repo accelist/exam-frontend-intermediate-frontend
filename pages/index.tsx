@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare, faSort, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { OrderData } from "@/types/OrderData";
+import Link from "next/link";
 
 function OrderTable({ rowNumber, rowData, currentPage }) {
 
@@ -38,15 +39,15 @@ function OrderTable({ rowNumber, rowData, currentPage }) {
                 </td>
 
                 <td className="px-6 py-4 text-right">
-                    <a href={`/orders/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                    <Link href={`/orders/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
                         <FontAwesomeIcon icon={faEye} />
-                    </a>
-                    <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                    </Link>
+                    <Link href="" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
                         <FontAwesomeIcon icon={faPenToSquare} />
-                    </a>
-                    <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                    </Link>
+                    <Link href="" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
                         <FontAwesomeIcon icon={faTrash} />
-                    </a>
+                    </Link>
                 </td>
 
             </tr>
@@ -65,32 +66,33 @@ const LoginPage: Page = () => {
 
     const [orderList, setOrderList] = useState<OrderData[] | undefined>([])
 
-    async function fetchData() {
-
-        const requestData = {
-            currentPage: currentPage,
-            pageSize: 25,
-        };
-
-        const reqInit: RequestInit = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            body: JSON.stringify(requestData),
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/api/be/api/v1/Order/OrderGrid', reqInit);
-            const responseData = await response.json();
-            return responseData;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     useEffect(() => {
         const fetchAndSetData = async () => {
+
+            async function fetchData() {
+
+                const requestData = {
+                    currentPage: 1,
+                    pageSize: 25,
+                };
+        
+                const reqInit: RequestInit = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(requestData),
+                }
+        
+                try {
+                    const response = await fetch('http://localhost:3000/api/be/api/v1/Order/OrderGrid', reqInit);
+                    const responseData = await response.json();
+                    return responseData;
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
             const data = await fetchData();
             setOrderList(data);
         };
