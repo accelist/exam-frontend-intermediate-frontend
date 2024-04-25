@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Head from 'next/head';
 import { Avatar, Button, ConfigProvider, Drawer, Layout, Menu, MenuProps } from "antd";
-import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import { useSession, signIn, signOut } from "next-auth/react";
-import nProgress from "nprogress";
+import { useSession,  signOut } from "next-auth/react";
+
 
 const { Content, Sider } = Layout;
 
@@ -102,6 +102,14 @@ const DefaultLayout: React.FC<{
                 ]
             }
         );
+        menu.push({
+            
+                key: '#register',
+                label: 'Register',
+                icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
+                onClick: () => router.push('/register')
+
+        });
 
         if (status === 'authenticated') {
             menu.push({
@@ -109,7 +117,6 @@ const DefaultLayout: React.FC<{
                 label: 'Sign out',
                 icon: <FontAwesomeIcon icon={faSignOut}></FontAwesomeIcon>,
                 onClick: () => {
-                    nProgress.start();
                     signOut();
                     // HINT: use this method call if need to end SSO server authentication session:
                     // signOut({
@@ -123,8 +130,8 @@ const DefaultLayout: React.FC<{
                 label: 'Sign in',
                 icon: <FontAwesomeIcon icon={faSignIn}></FontAwesomeIcon>,
                 onClick: () => {
-                    nProgress.start();
-                    signIn('oidc');
+                    router.push('/login');
+                    
                 }
             });
         }
