@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from 'next/head';
 import { Avatar, Button, ConfigProvider, Drawer, Layout, Menu, MenuProps } from "antd";
-import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -128,7 +128,16 @@ const DefaultLayout: React.FC<{
                 }
             });
         }
-
+        menu.push({
+            key: "register",
+            label: "Register",
+            icon: <FontAwesomeIcon icon={faUserPlus}></FontAwesomeIcon>,
+            onClick: () => {
+              nProgress.start();
+              router.push("/register");
+            },
+          });
+          
         return menu;
     }
 
