@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from 'next/head';
 import { Avatar, Button, ConfigProvider, Drawer, Layout, Menu, MenuProps } from "antd";
-import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -29,7 +29,7 @@ const DefaultLayout: React.FC<{
 
         menu.push({
             key: '/',
-            label: 'Home',
+            label: 'Main Menu',
             icon: <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>,
             onClick: () => router.push('/')
         });
@@ -37,69 +37,9 @@ const DefaultLayout: React.FC<{
         menu.push(
             {
                 key: '#menu-1',
-                label: 'Menu 1',
+                label: 'Post',
                 icon: <FontAwesomeIcon icon={faCubes}></FontAwesomeIcon>,
-                children: [
-                    {
-                        key: '/dashboard',
-                        label: 'Dashboard',
-                        onClick: () => router.push('/dashboard')
-                    },
-                    {
-                        key: '/sub-menu-b',
-                        label: 'Sub Menu B',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-c',
-                        label: 'Sub Menu C',
-                        onClick: () => router.push('/')
-                    }
-                ]
-            },
-            {
-                key: '#menu-2',
-                label: 'Menu 2',
-                icon: <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>,
-                children: [
-                    {
-                        key: '/sub-menu-d',
-                        label: 'Sub Menu D',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-e',
-                        label: 'Sub Menu E',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-f',
-                        label: 'Sub Menu F',
-                        onClick: () => router.push('/')
-                    }
-                ]
-            },
-            {
-                key: '#menu-3',
-                label: 'Menu 3',
-                icon: <FontAwesomeIcon icon={faFlaskVial}></FontAwesomeIcon>,
-                children: [
-                    {
-                        key: '/sub-menu-g',
-                        label: 'Sub Menu G',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-h',
-                        label: 'Sub Menu H',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-i',
-                        label: 'Sub Menu I',
-                        onClick: () => router.push('/')
-                    }
-                ]
+                onClick: () => router.push('/post')
             }
         );
 
