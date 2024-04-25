@@ -76,7 +76,7 @@ const LoginPage: Page = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            method: 'POST',
+            method: 'DELETE',
         }
 
         try {
