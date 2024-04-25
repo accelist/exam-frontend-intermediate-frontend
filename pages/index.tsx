@@ -28,16 +28,16 @@ const MainPage: Page = () => {
 
     const getData = async () => {
         try {
-            const fetchedData: Order[] = [];
+            const fetchingData: Order[] = [];
             for (let i = 1; i <= 20; i++) {
                 const response = await fetch(`/api/be/api/v1/Order/OrderDetail/${i}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch data for ID ${i}`);
                 }
                 const responseData = await response.json();
-                fetchedData.push(responseData);
+                fetchingData.push(responseData);
             }
-            setData(fetchedData);
+            setData(fetchingData);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -80,17 +80,30 @@ const MainPage: Page = () => {
     };
 
     const viewDetailsFunction = async (orderId: number) => {
-        try {
-            const response = await fetch(`/api/be/api/v1/Order/OrderDetail/${orderId}`);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch details for order ID ${orderId}`);
-            }
-            const orderDetails: Order = await response.json();
-            setSelectedOrder(orderDetails);
-        } catch (error) {
-            console.error('Error fetching order details:', error);
+    try {
+        const response = await fetch(`/api/be/api/v1/Order/OrderDetail/${orderId}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch details for order ID ${orderId}`);
         }
-    };
+        const orderDetails: Order = await response.json();
+        Modal.info({
+            title: `Order Details - ${orderDetails.orderId}`,
+            content: (
+                <div>
+                    <p><strong>Description:</strong> {orderDetails.description}</p>
+                    <p><strong>Order From:</strong> {orderDetails.orderFrom}</p>
+                    <p><strong>Order To:</strong> {orderDetails.orderTo}</p>
+                    <p><strong>Ordered At:</strong> {orderDetails.orderedAt}</p>
+                    <p><strong>Quantity:</strong> {orderDetails.quantity}</p>
+                </div>
+            ),
+            onOk() {
+            },
+        });
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+    }
+};
     const updateFunction = async (record: Order) => {
         try {
             if (!updateDescription || !updateOrderFrom || !updateOrderTo || !updateQuantity) {
@@ -252,7 +265,7 @@ const MainPage: Page = () => {
 
             <div className="mt-4 flex justify-between items-center">
                 <Button onClick={() => router.push('/product')} type="primary" icon={<FontAwesomeIcon icon={faPlus} />} className="rounded bg-green-500">
-                    Create Your Product Here!
+                    Create Your Order Here!
                 </Button>
             </div>
             <div className="flex justify-center mt-4">
