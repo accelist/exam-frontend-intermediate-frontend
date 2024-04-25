@@ -12,30 +12,46 @@ interface Order {
 }
 
 export default function MainMenu() {
-  const [orders, setOrders] = useState<Order[]>([]);
+//   const [orders, setOrders] = useState<Order[]>([]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const orderIds = [1, 2, 3, 4, 5];
+//   useEffect(() => {
+//     const fetchOrders = async () => {
+//       const orderIds = [1, 2, 3, 4, 5];
 
-      const fetchOrderDetails = async (id: number) => {
-        const response = await fetch(`api/be/api/v1/Order/OrderDetail/${id}`);
-        if (!response.ok) {
-            console.error(`Failed to fetch order ${id}: ${response.statusText}`);
-            return null;
-          }
-        const data = await response.json();
-        return data;
-      };
+//       const fetchOrderDetails = async (id: number) => {
+//         const response = await fetch(`api/be/api/v1/Order/OrderDetail/${id}`);
+//         if (!response.ok) {
+//             console.error(`Failed to fetch order ${id}: ${response.statusText}`);
+//             return null;
+//           }
+//         const data = await response.json();
+//         return data;
+//       };
 
-      const orders = await Promise.all(orderIds.map(fetchOrderDetails));
-      setOrders(orders.filter(order => order !== null));
-    };
+//       const orders = await Promise.all(orderIds.map(fetchOrderDetails));
+//       setOrders(orders.filter(order => order !== null));
+//     };
   
-    fetchOrders();
-  }, []);
+//     fetchOrders();
+//   }, []);
 
-  const router = useRouter();
+//   const router = useRouter();
+
+const [orders, setOrders] = useState<Order[]>([]);
+
+useEffect(() => {
+  // Replace fetchOrders with dummy data
+  const dummyOrders: Order[] = [
+    { id: 1, name: 'Order 1', from: 'Location 1', to: 'Location 2', at: '2022-01-01', quantity: 10 },
+    { id: 2, name: 'Order 2', from: 'Location 2', to: 'Location 3', at: '2022-02-01', quantity: 20 },
+    { id: 3, name: 'Order 3', from: 'Location 3', to: 'Location 4', at: '2022-03-01', quantity: 30 },
+    { id: 4, name: 'Order 4', from: 'Location 4', to: 'Location 5', at: '2022-04-01', quantity: 40 },
+    { id: 5, name: 'Order 5', from: 'Location 5', to: 'Location 6', at: '2022-05-01', quantity: 50 },
+  ];
+  setOrders(dummyOrders);
+}, []);
+
+const router = useRouter();
 
   const handleView = (order: Order) => {
     // Navigate to the Order Detail page for the clicked order
@@ -47,9 +63,24 @@ export default function MainMenu() {
     router.push(`/be-orders/orderupdatepage/${order.id}`);
   };
 
-  const handleDelete = (order: Order) => {
-    // Handle delete action here...
-    router.push(`/be-orders/orderdeletepage/${order.id}`);
+  const handleDelete = async (order: Order) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this order?');
+    if (!confirmDelete) {
+      return;
+    }
+  
+    // Make a DELETE request to your API
+    const response = await fetch(`api/be/api/v1/Order/DeleteOrder/${order.id}`, {
+      method: 'DELETE',
+    });
+  
+    if (response.ok) {
+      // If the order was successfully deleted, remove it from the orders state
+      setOrders(orders.filter(o => o.id !== order.id));
+    } else {
+      // Handle error
+      alert('Failed to delete order');
+    }
   };
 
   return (
