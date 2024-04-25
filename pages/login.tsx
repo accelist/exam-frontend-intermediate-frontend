@@ -2,52 +2,49 @@ import { Page } from '@/types/Page';
 import { Button, Form, Input, notification } from 'antd';
 import { useRouter } from 'next/router';
 
-// export default function LoginPage() {
 const LoginPage: Page = () => {
 
     const [form] = Form.useForm();
     const router = useRouter();
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values);
-        try {
-          // Adjust the endpoint as necessary. This should point to your login API.
+      try {
           const response = await fetch('/api/be/api/v1/Auth/Login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              usernameOrEmail: values.usernameOrEmail,
-              password: values.password
-            }),
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  email: values.usernameOrEmail,
+                  password: values.password
+              }),
           });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          const data = await response.json();
-    
-          if (data.success) {
-            notification.success({
-              message: 'Login Successful',
-              description: 'You have been successfully logged in.',
-            });
-            router.push('/'); 
+  
+          if (response.ok) {
+              const text = await response.text(); 
+              if (text === "Login success") {
+                  notification.success({
+                      message: 'Login Successful',
+                      description: 'You have been successfully logged in.',
+                  });
+                  router.push('/'); 
+              } else {
+                  notification.error({
+                      message: 'Login Failed',
+                      description: 'Received unexpected response from the server.',
+                  });
+              }
           } else {
-            notification.error({
-              message: 'Login Failed',
-              description: data.message || 'Invalid username or password.',
-            });
+              const errorText = await response.text(); 
+              throw new Error(errorText || `Server responded with status: ${response.status}`);
           }
-        } catch (error) {
+      } catch (error) {
           console.error('Login error:', error);
           notification.error({
-            message: 'Login Error',
-            description: 'There was an issue completing your request.',
+              message: 'Login Error',
+              description: (error instanceof Error) ? error.message : 'There was an issue completing your request.',
           });
-        }
+      }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -59,7 +56,7 @@ const LoginPage: Page = () => {
     };
 
     const handleRegisterClick = () => {
-        router.push('/register'); // Adjust this to the path where your registration page is located
+        router.push('/register');
       };
 
     return (
