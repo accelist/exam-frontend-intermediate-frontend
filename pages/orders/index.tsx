@@ -6,7 +6,6 @@ import { faInfoCircle, faMinusSquare, faPencilSquare } from "@fortawesome/free-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Divider, Row, Space, Table} from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const OrderMainMenuIndex: React.FC = ()=>{
@@ -14,7 +13,6 @@ const OrderMainMenuIndex: React.FC = ()=>{
     const pageRows = 5;
     const [orders, setOrders] = useState<OrderGridDataResponse[]>();
 
-    const router = useRouter();
     
     /**
      * Data fetching function
@@ -46,14 +44,6 @@ const OrderMainMenuIndex: React.FC = ()=>{
           });
     }, [page])
     
-
-    function onClickView(){
-        router.push('/orders/view');
-    }
-    function onClickEdit(){
-        router.push('/orders/view');
-    }
-    
     const orderColumns: ColumnsType<OrderGridData> = [
         {
             title: "No. ",
@@ -80,8 +70,8 @@ const OrderMainMenuIndex: React.FC = ()=>{
         {
             title: 'Actions',
             dataIndex: 'orderId',
-            render: () => <>
-                <Button className="bg-white-200" onClick={onClickView}>
+            render: (__value, order) => <>
+                <Button className="bg-white-200" href={`/orders/${order.orderId}`}>
                     <FontAwesomeIcon className="text-black" icon={faInfoCircle} />
                 </Button>
                 <Button className="bg-white-500">
