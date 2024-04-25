@@ -127,6 +127,7 @@ const DefaultLayout: React.FC<{
                     signIn('oidc');
                 }
             });
+            
         }
 
         return menu;
