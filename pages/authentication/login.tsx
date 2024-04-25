@@ -1,5 +1,5 @@
 import { WithDefaultLayout } from "@/components/DefautLayout";
-import { CreateLoginFormSchema, CreateLoginFormType } from "@/schemas/loginDataSchema";
+import { CreateLoginFormSchema, CreateLoginFormType } from "@/schemas/CreateLoginFormSchema";
 import { Page } from "@/types/Page";
 import Head from "next/head";
 import { Controller, useForm } from "react-hook-form";
@@ -99,7 +99,7 @@ const CreateLoginForm: React.FC = () => {
                     </Row>
                     <Row gutter={[0, 16]}>
                         <Col span={24}>
-                            <Button type="default" href='' className="bg-blue-500">
+                            <Button type="default" href='/authentication/register' className="bg-blue-500">
                                 Register
                             </Button>
                         </Col>
