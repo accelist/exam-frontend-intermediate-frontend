@@ -85,7 +85,7 @@ const IndexPage: Page = () => {
                             <Col span={18}>
                                 <Controller name="gender"
                                     control={control}
-                                    render={({ field }) => <Radio.Group>
+                                    render={({ field }) => <Radio.Group onChange={(gender) => field.onChange(gender)}>
                                         <Radio value="male">Male</Radio>
                                         <Radio value="female">Female</Radio>
                                         <Radio value="other">Other</Radio>
