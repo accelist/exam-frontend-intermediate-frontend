@@ -129,6 +129,17 @@ const DefaultLayout: React.FC<{
             });
         }
 
+        menu.push({
+            key: '/log-out',
+            label: 'Log out',
+            icon: <FontAwesomeIcon icon={faSignOut}></FontAwesomeIcon>,
+            onClick: () => {
+                window.location.href = '/';
+            }
+        });
+
+        
+
         return menu;
     }
 

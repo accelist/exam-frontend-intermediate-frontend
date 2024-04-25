@@ -70,7 +70,7 @@ const IndexPage: Page = () => {
                             <Col span={18}>
                                 <Controller name="password"
                                     control={control}
-                                    render={({ field }) => <Input id="password" placeholder="Password"
+                                    render={({ field }) => <Input.Password id="password" placeholder="Password"
                                         addonBefore="Password" {...field} />} />
 
                                 {errors.password && <span className="text-red-500">{errors.password.message}</span>}

@@ -3,25 +3,29 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { DefaultApiRequestHeader } from '@/functions/DefaultApiRequestHeader';
-import { Button, Col, Input, Row, Space } from 'antd';
+import { Button, Col, DatePicker, Input, Radio, Row, Space } from 'antd';
 import { Page } from '@/types/Page';
 import { WithDefaultLayout } from '@/components/DefautLayout';
 
 const IndexPage: Page = () => {
-    const LoginFormSchema = z.object({
+    const RegisterFormSchema = z.object({
         email: z.string().nonempty({ message: 'Email is required.' })
             .max(100, { message: 'Email must be less than 100 characters.' }),
+        birthDate: z.date(),
         password: z.string().nonempty({ message: 'Password name is required.' })
             .min(1, { message: 'Password must be at least 1 character long.' }),
-        phoneNumber: z.string().nonempty({ message: 'Phone number is required.' })
-        .max(8, { message: 'Phone number cannot exceed 8 characters.' })
+        address: z.string().nonempty({ message: 'Address is required.' })
+            .max(255, { message: 'Address cannot exceed 255 characters.' }),
+        username: z.string().nonempty({ message: 'Password name is required.' })
+            .max(20, { message: 'Username cannot exceed 20 characters.' }),
+        gender: z.enum(['male', 'female', 'Other']).optional()
     });
 
-    type LoginFormType = z.infer<typeof LoginFormSchema>;
+    type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
 
-    const { handleSubmit, control, formState: { errors } } = useForm<LoginFormType>({
-        resolver: zodResolver(LoginFormSchema),
+    const { handleSubmit, control, formState: { errors } } = useForm<RegisterFormType>({
+        resolver: zodResolver(RegisterFormSchema),
         mode: 'onChange'
     });
 
@@ -35,12 +39,12 @@ const IndexPage: Page = () => {
         }
 
         try {
-            await fetch('http://localhost:3000/api/orders/api/v1/Auth/Login', reqInit);
+            await fetch('http://localhost:3000/api/orders/api/v1/Auth/Register', reqInit);
         } catch (error) {
             console.error(error);
         }
     
-        window.location.href = '/orders';
+        window.location.href = '/';
     }
 
     return <Space direction="vertical" size={"middle"} style={{ display: 'flex' }}>
@@ -68,22 +72,60 @@ const IndexPage: Page = () => {
 
                         <Row>
                             <Col span={18}>
+                                <Controller name="birthDate"
+                                    control={control}
+                                    render={({ field }) => <DatePicker id="birthDate" format="YYYY-MM-DD" placeholder="Select Date" 
+                                    onChange={(date) => field.onChange(date?.toDate())}/>} />
+
+                                {errors.birthDate && <span className="text-red-500">{errors.birthDate.message}</span>}
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col span={18}>
+                                <Controller name="gender"
+                                    control={control}
+                                    render={({ field }) => <Radio.Group>
+                                        <Radio value="male">Male</Radio>
+                                        <Radio value="female">Female</Radio>
+                                        <Radio value="other">Other</Radio>
+                                    </Radio.Group>} />
+
+                                {errors.gender && <span className="text-red-500">{errors.gender.message}</span>}
+                            </Col>
+                        </Row>
+                        
+
+                        <Row>
+                            <Col span={18}>
+                                <Controller name="address"
+                                    control={control}
+                                    render={({ field }) => <Input id="address" placeholder="Address"
+                                        addonBefore="Address" {...field} />} />
+
+                                {errors.address && <span className="text-red-500">{errors.address.message}</span>}
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col span={18}>
+                                <Controller name="username"
+                                    control={control}
+                                    render={({ field }) => <Input id="username" placeholder="Username"
+                                        addonBefore="Username" {...field} />} />
+
+                                {errors.username && <span className="text-red-500">{errors.username.message}</span>}
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col span={18}>
                                 <Controller name="password"
                                     control={control}
-                                    render={({ field }) => <Input id="password" placeholder="Password"
+                                    render={({ field }) => <Input.Password id="password" placeholder="Password"
                                         addonBefore="Password" {...field} />} />
 
                                 {errors.password && <span className="text-red-500">{errors.password.message}</span>}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={18}>
-                                <Controller name="phoneNumber"
-                                    control={control}
-                                    render={({ field }) => <Input id="phoneNumber" placeholder="Phone Number"
-                                        addonBefore="Phone Number" {...field} />} />
-
-                                {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber.message}</span>}
                             </Col>
                         </Row>
 
