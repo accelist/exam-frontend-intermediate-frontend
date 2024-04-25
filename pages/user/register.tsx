@@ -16,6 +16,36 @@ export default function RegisterPage() {
     e.preventDefault();
 
     // Add your validation logic here
+    if (!email || !email.includes('@')) {
+      alert('Invalid email');
+      return;
+    }
+
+    const age = new Date().getFullYear() - new Date(dob).getFullYear();
+    if (age < 14) {
+      alert('You must be at least 14 years old');
+      return;
+    }
+
+    if (!['M', 'P', 'Other'].includes(gender)) {
+      alert('Invalid gender');
+      return;
+    }
+
+    if (!address || address.length > 255) {
+      alert('Invalid address');
+      return;
+    }
+
+    if (!username || username.length > 20) {
+      alert('Invalid username');
+      return;
+    }
+
+    if (!password || password.length < 8 || password.length > 64) {
+      alert('Invalid password');
+      return;
+    }
 
     // Make a POST request to your API
     const response = await fetch('api/be/api/v1/auth/register', {
