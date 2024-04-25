@@ -58,45 +58,40 @@ const DefaultLayout: React.FC<{
                 ]
             },
             {
-                key: '#menu-2',
-                label: 'Menu 2',
+                key: '#UserMenu',
+                label: 'User',
                 icon: <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>,
                 children: [
                     {
-                        key: '/sub-menu-d',
-                        label: 'Sub Menu D',
+                        key: '/register',
+                        label: 'Register',
                         onClick: () => router.push('/')
                     },
                     {
-                        key: '/sub-menu-e',
-                        label: 'Sub Menu E',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-f',
-                        label: 'Sub Menu F',
+                        key: '/login',
+                        label: 'Login',
                         onClick: () => router.push('/')
                     }
                 ]
             },
             {
-                key: '#menu-3',
-                label: 'Menu 3',
+                key: '#Orders',
+                label: 'Order',
                 icon: <FontAwesomeIcon icon={faFlaskVial}></FontAwesomeIcon>,
                 children: [
                     {
-                        key: '/sub-menu-g',
-                        label: 'Sub Menu G',
+                        key: '/orders/create',
+                        label: 'Create',
                         onClick: () => router.push('/')
                     },
                     {
-                        key: '/sub-menu-h',
-                        label: 'Sub Menu H',
+                        key: '/orders/index',
+                        label: 'View',
                         onClick: () => router.push('/')
                     },
                     {
-                        key: '/sub-menu-i',
-                        label: 'Sub Menu I',
+                        key: '/orders/create',
+                        label: 'Update',
                         onClick: () => router.push('/')
                     }
                 ]
