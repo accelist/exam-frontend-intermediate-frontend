@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from 'next/head';
 import { Avatar, Button, ConfigProvider, Drawer, Layout, Menu, MenuProps } from "antd";
-import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut, faSignIn, faHome, faCubes, faUser, faUsers, faFlaskVial, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -102,35 +102,45 @@ const DefaultLayout: React.FC<{
                 ]
             }
         );
-
+        
         if (status === 'authenticated') {
             menu.push({
-                key: '/sign-out',
-                label: 'Sign out',
-                icon: <FontAwesomeIcon icon={faSignOut}></FontAwesomeIcon>,
-                onClick: () => {
-                    nProgress.start();
-                    signOut();
-                    // HINT: use this method call if need to end SSO server authentication session:
-                    // signOut({
-                    //     callbackUrl: '/api/end-session'
-                    // });
-                }
+              key: '/post-order',
+              label: 'Post Order',
+              icon: <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>,
+              onClick: () => {
+                nProgress.start();
+                router.push('/be-orders/orderpostpage');
+              },
             });
-        } else {
+        
             menu.push({
-                key: '/sign-in',
-                label: 'Sign in',
-                icon: <FontAwesomeIcon icon={faSignIn}></FontAwesomeIcon>,
-                onClick: () => {
-                    nProgress.start();
-                    signIn('oidc');
-                }
+              key: '/sign-out',
+              label: 'Sign out',
+              icon: <FontAwesomeIcon icon={faSignOut}></FontAwesomeIcon>,
+              onClick: () => {
+                nProgress.start();
+                signOut();
+                // HINT: use this method call if need to end SSO server authentication session:
+                // signOut({
+                //     callbackUrl: '/api/end-session'
+                // });
+              },
             });
+          } else {
+            menu.push({
+              key: '/sign-in',
+              label: 'Sign in',
+              icon: <FontAwesomeIcon icon={faSignIn}></FontAwesomeIcon>,
+              onClick: () => {
+                nProgress.start();
+                signIn('oidc');
+              },
+            });
+          }
+        
+          return menu;
         }
-
-        return menu;
-    }
 
     const displayUserName = session?.user?.name;
 
