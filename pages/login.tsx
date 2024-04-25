@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
 import { Button, Input } from "antd";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const LoginPage: Page = () => {
 
@@ -22,8 +23,22 @@ const LoginPage: Page = () => {
         mode: 'onChange'
     });
 
-    function onFormSubmit() {
-        console.log("LOGIN FORM SUBMIT");
+    async function onFormSubmit(formData) {
+
+        try {
+            const result = await signIn('credentials', {
+                username: formData.username,
+                password: formData.password,
+                callbackUrl: '/',
+                redirect: true
+            });
+
+            if (result?.error) {
+                console.error('Authentication failed:', result.error);
+            }
+        } catch (error) {
+            console.error('Sign in error:', error);
+        }
     }
 
     return <>

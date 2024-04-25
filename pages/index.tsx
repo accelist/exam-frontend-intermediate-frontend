@@ -42,7 +42,7 @@ function OrderTable({ rowNumber, rowData, currentPage }) {
                     <Link href={`/orders/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
                         <FontAwesomeIcon icon={faEye} />
                     </Link>
-                    <Link href="" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                    <Link href={`/orders/update/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
                         <FontAwesomeIcon icon={faPenToSquare} />
                     </Link>
                     <Link href="" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">

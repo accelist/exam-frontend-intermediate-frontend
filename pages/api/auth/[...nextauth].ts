@@ -4,6 +4,7 @@ import { Issuer } from 'openid-client';
 import { custom } from 'openid-client';
 import { AppSettings } from "../../../functions/AppSettings"
 import { UserInfo } from "../../../functions/AuthorizationContext";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 /**
  * Takes a token, and returns a new token with updated
@@ -67,62 +68,37 @@ function hasNotExpired(expireAtSeconds: unknown): boolean {
 
 export const authOptions: NextAuthOptions = {
     providers: [
-        {
-            id: "oidc",
-            name: "OpenID Connect",
-            type: "oauth",
-            wellKnown: AppSettings.current.oidcIssuer + '/.well-known/openid-configuration',
-            client: {
-                token_endpoint_auth_method: 'none'
-            },
-            clientId: AppSettings.current.oidcClientId,
-            authorization: {
-                params: {
-                    scope: AppSettings.current.oidcScope,
+        CredentialsProvider({
+          name: 'Credentials',
+          credentials: {
+            username: { label: "Username", type: "text", placeholder: "admin@accelist.com" },
+            password: { label: "Password", type: "password", placeholder: "admin" }
+          },
+          async authorize(credentials) {
+
+            try {
+                const res = await fetch("http://localhost:3000/api/be/api/v1/Auth/Login", {
+                    method: 'POST',
+                    body: JSON.stringify(credentials),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const user = await res.json();
+
+                // If no error and we have user data, return it
+                if (res.ok && user) {
+                    return user;
                 }
-            },
-            checks: ["pkce", "state"],
-            idToken: true,
-            userinfo: {
-                async request(context) {
-                    // idToken: true makes next-auth parse user info from id_token
-                    // this code below makes next-auth query the user info endpoint instead
-                    if (context.tokens.access_token) {
-                        return await context.client.userinfo(context.tokens.access_token)
-                    }
-                    return {};
-                }
-            },
-            async profile(profile) {
-                // add claims obtained from user info endpoint to the session.user data
-                // reference: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
-                // console.log(profile);
-                return {
-                    id: profile.sub,
-                    name: profile.name,
-                    // given_name: profile.given_name,
-                    // family_name: profile.family_name,
-                    // middle_name: profile.middle_name,
-                    // nickname: profile.nickname,
-                    // preferred_username: profile.preferred_username,
-                    // profile: profile.profile,
-                    // picture: profile.picture,
-                    // website: profile.website,
-                    email: profile.email,
-                    // email_verified: profile.email_verified,
-                    // gender: profile.gender,
-                    // birthdate: profile.birthdate,
-                    // zoneinfo: profile.zoneinfo,
-                    // locale: profile.locale,
-                    // phone_number: profile.phone_number,
-                    // phone_number_verified: profile.phone_number_verified,
-                    // address: profile.address,
-                    // updated_at: profile.updated_at
-                    role: profile.role
-                }
-            },
-        }
-    ],
+
+                // Return null if user data could not be retrieved
+                return null;
+            } catch (error) {
+                console.error('Authorization error:', error);
+                throw new Error('Authorization failed');
+            }
+          }
+        })
+      ],
     callbacks: {
         async jwt({ token, account, user }) {
             // Initial sign in
@@ -159,5 +135,4 @@ export const authOptions: NextAuthOptions = {
 
 export default NextAuth(authOptions)
 
-// generate new NEXTAUTH_SECRET for production
-// https://generate-secret.vercel.app/32
+

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from 'next/head';
 import { Avatar, Button, ConfigProvider, Drawer, Layout, Menu, MenuProps } from "antd";
-import { faBars, faSignOut, faSignIn, faHome, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut, faSignIn, faHome, faUser, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -32,6 +32,13 @@ const DefaultLayout: React.FC<{
             label: 'Main menu',
             icon: <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>,
             onClick: () => router.push('/')
+        });
+
+        menu.push({
+            key: '/orders/create',
+            label: 'Create new order',
+            icon: <FontAwesomeIcon icon={faPlus} />,
+            onClick: () => router.push('/orders/create')
         });
 
         if (status === 'authenticated') {
