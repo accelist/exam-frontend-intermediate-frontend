@@ -7,7 +7,7 @@ const IndexPage: Page = () => {
     return (
         <div>
             <Title>Home</Title>
-            Hello World!
+            Waktu tidak mengcukupi jadi klik link bawah untuk ke main menu.
             <Link href="/orders">Click here to go to Main Menu</Link>
         </div>
     );

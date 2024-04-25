@@ -1,3 +1,5 @@
+import { atom } from "jotai";
+
 export interface OrderDataResponse {
     orderDatas: OrderData[];
 }
@@ -10,3 +12,6 @@ export interface OrderData {
     quantity: number;
     orderedAt: Date;
 }
+
+const orderListAtom = atom<OrderData[]>([]);
+export default orderListAtom;

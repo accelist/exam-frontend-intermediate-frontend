@@ -1,22 +1,28 @@
 import { WithDefaultLayout } from '@/components/DefautLayout';
 import { Title } from '@/components/Title';
-import { OrderData } from '@/types/orders/OrderData';
+import orderListAtom, { OrderData } from '@/types/orders/OrderData';
 import { Page } from '@/types/Page';
-import { Table } from 'antd';
+import { faMagnifyingGlass, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Modal, Table } from 'antd';
+import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 
 const OrderIndex: React.FC = () => {
     const [page] = useState(1);
 
-    const pageRows = 10;
-    
-    const [products, setProducts] = useState<OrderData[]>([]);
+    const pageRows = 25;
+
+    const [products, setProducts] = useAtom(orderListAtom);
+
+    const [modal, contextHolder] = Modal.useModal();
 
     async function postData(){
         const req = {
             currentPage: 1,
-            pageSize: 10
+            pageSize: pageRows
           }
         
         const url = 'api/orders/api/v1/Order/OrderGrid';
@@ -43,7 +49,40 @@ const OrderIndex: React.FC = () => {
             } catch (error) {
                 console.error(error);
             }
-        }, []);
+    }, []);
+
+    function onClickDeleteProduct(product: OrderData) {
+        modal.confirm({
+            title: 'Delete Product Confirmation',
+            content: `Are you sure you want to delete product "${product.orderTo}"?`,
+            okButtonProps: {
+                className: 'bg-red-500 text-white'
+            },
+            okText: 'Yes',
+            onOk: () => onConfirmDeleteProduct(product),
+            cancelText: 'No',
+        });
+    }
+
+    function onConfirmDeleteProduct(product: OrderData) {
+        // ini kalo datanya gk auto generate setiap di call
+        // const reqInit: RequestInit = {
+        //     headers: {...DefaultApiRequestHeader,
+        //     },
+        //     method: 'DELETE'
+        // }
+
+        // try {
+        //     await fetch(`/api/be-custom/api/v1/product/${product.orderId}`, reqInit);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+        // Datanya random setial kali call kan jadi deletenya kek gini biar keliatan klo ad perubahan
+        const newProductList = products.filter(p => p.orderId !== product.orderId);
+
+        setProducts(newProductList);
+        render();
+    }
 
     const productColumns = [
             {
@@ -52,16 +91,41 @@ const OrderIndex: React.FC = () => {
             },
             { title: 'Order From', dataIndex: 'orderFrom'},
             { title: 'Order To', dataIndex: 'orderTo'},
-            { title: 'Total', dataIndex: 'total'},
             { title: 'Quantity', dataIndex: 'quantity'},
-            { title: 'Ordered At', dataIndex: 'orderedAt'}
+            { title: 'Ordered At', dataIndex: 'orderedAt'},
+            {
+                title: 'Action',
+                dataIndex: 'productId',
+                render: (__value, product) => <>
+                    <Link className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs" 
+                    href={`/orders/detail/${product.orderId}`}>
+                        <FontAwesomeIcon className="text-white" icon={faMagnifyingGlass} />
+                    </Link>
+                    <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs" 
+                    href={`/orders/create`}>
+                        <FontAwesomeIcon className="text-white" icon={faPencil} />
+                    </a>
+                    <Button className="bg-red-500">
+                        <FontAwesomeIcon className="text-white" onClick={() => onClickDeleteProduct(product)} icon={faTrash} />
+                    </Button>
+                </>
+            }
     ];
+
+    function render(){
+        return <>
+        <Table rowKey="productId"
+                dataSource={products}
+                columns={productColumns}
+                className='p-4 bg-slate-200 rounded-xl shadow-xl'
+                pagination={{ pageSize: 5 }}></Table>
+                {contextHolder}
+        </>
+    }
 
     return<>
         <h1>Orders</h1>
-        <Table rowKey="productId"
-                dataSource={products}
-                columns={productColumns}></Table>
+        {render()}
     </>
 }
 
