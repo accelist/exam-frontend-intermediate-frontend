@@ -20,7 +20,6 @@ const DefaultLayout: React.FC<{
     const router = useRouter();
     const { data: session, status } = useSession();
 
-    // menu.key must match the router.pathname, see example below: "/dashboard"
     const [selected, setSelected] = useState([router.pathname]);
 
     // key must also be unique, for obvious reason
@@ -37,25 +36,9 @@ const DefaultLayout: React.FC<{
         menu.push(
             {
                 key: '#menu-1',
-                label: 'Menu 1',
+                label: 'Create',
                 icon: <FontAwesomeIcon icon={faCubes}></FontAwesomeIcon>,
-                children: [
-                    {
-                        key: '/dashboard',
-                        label: 'Dashboard',
-                        onClick: () => router.push('/dashboard')
-                    },
-                    {
-                        key: '/sub-menu-b',
-                        label: 'Sub Menu B',
-                        onClick: () => router.push('/')
-                    },
-                    {
-                        key: '/sub-menu-c',
-                        label: 'Sub Menu C',
-                        onClick: () => router.push('/')
-                    }
-                ]
+                onClick: () => router.push('/create')
             },
             {
                 key: '#menu-2',
@@ -111,10 +94,6 @@ const DefaultLayout: React.FC<{
                 onClick: () => {
                     nProgress.start();
                     signOut();
-                    // HINT: use this method call if need to end SSO server authentication session:
-                    // signOut({
-                    //     callbackUrl: '/api/end-session'
-                    // });
                 }
             });
         } else {
@@ -122,10 +101,23 @@ const DefaultLayout: React.FC<{
                 key: '/sign-in',
                 label: 'Sign in',
                 icon: <FontAwesomeIcon icon={faSignIn}></FontAwesomeIcon>,
-                onClick: () => {
-                    nProgress.start();
-                    signIn('oidc');
-                }
+                children: [
+                    {
+                        key: '/sign-in',
+                        label: 'Login',
+                        onClick: () => {
+                            router.push('/login');
+                        }
+                    },
+                    {
+                        key: '/register',
+                        label: 'Register',
+                        onClick: () => {
+                            nProgress.start();
+                            router.push('/register');
+                        }
+                    }
+                ]
             });
         }
 
