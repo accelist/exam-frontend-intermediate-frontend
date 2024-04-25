@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { WithDefaultLayout } from '../components/DefautLayout';
 import { Title } from '../components/Title';
 import { Page } from '../types/Page';
@@ -7,6 +8,7 @@ const IndexPage: Page = () => {
         <div>
             <Title>Home</Title>
             Hello World!
+            <Link href="/orders">Click here to go to Main Menu</Link>
         </div>
     );
 }
