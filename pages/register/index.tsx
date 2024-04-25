@@ -18,7 +18,7 @@ const IndexPage: Page = () => {
             .max(255, { message: 'Address cannot exceed 255 characters.' }),
         username: z.string().nonempty({ message: 'Password name is required.' })
             .max(20, { message: 'Username cannot exceed 20 characters.' }),
-        gender: z.enum(['male', 'female', 'Other']).optional()
+        gender: z.enum(['male', 'female', 'other']).optional()
     });
 
     type RegisterFormType = z.infer<typeof RegisterFormSchema>;
