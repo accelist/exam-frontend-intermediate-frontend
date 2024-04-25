@@ -5,56 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare, faSort, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { OrderData } from "@/types/OrderData";
 import Link from "next/link";
-
-function OrderTable({ rowNumber, rowData, currentPage }) {
-
-    return <>    
-
-        <tbody>
-
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {((currentPage - 1) * 5)+ rowNumber + 1}
-                </th>
-
-                <td className="px-6 py-4">
-                    {rowData.orderFrom}
-                </td>
-
-                <td className="px-6 py-4">
-                    {rowData.orderTo}
-                </td>
-                
-                <td className="px-6 py-4">
-                    {rowData.quantity}
-                </td>
-
-                <td className="px-6 py-4">
-                    {rowData.total}
-                </td>
-                
-                <td className="px-6 py-4">
-                    {rowData.orderedAt}
-                </td>
-
-                <td className="px-6 py-4 text-right">
-                    <Link href={`/orders/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
-                        <FontAwesomeIcon icon={faEye} />
-                    </Link>
-                    <Link href={`/orders/update/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </Link>
-                    <Link href="" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
-                        <FontAwesomeIcon icon={faTrash} />
-                    </Link>
-                </td>
-
-            </tr>
-        </tbody>
-    
-    </>
-}
+import { Modal } from "antd";
 
 const LoginPage: Page = () => {
 
@@ -99,6 +50,95 @@ const LoginPage: Page = () => {
     
         fetchAndSetData(); 
     }, []);
+    
+    const [modal, contextHolder] = Modal.useModal();
+
+    function onClickDeleteOrder(order) {
+        modal.confirm({
+            title: 'Delete Confirmation',
+            content: `Are you sure you want to delete order?`,
+            okButtonProps: {
+                className: 'bg-red-500 text-white'
+            },
+            okText: 'Yes',
+            onOk: () => onConfirmDeleteOrder(order),
+            cancelText: 'No',
+        });
+    }
+
+    /**
+     * On click confirm delete product.
+     * @param product
+     */
+    async function onConfirmDeleteOrder(order) {
+
+        const reqInit: RequestInit = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+        }
+
+        try {
+            await fetch(`http://localhost:3000/api/be/api/v1/Order/DeleteOrder/${order.orderId}`, reqInit);
+
+            //TODO confirmation
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+
+    function orderTable(rowNumber, rowData, currentPage) {
+
+        return <>    
+
+            <tbody>
+
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {((currentPage - 1) * 5)+ rowNumber + 1}
+                    </th>
+
+                    <td className="px-6 py-4">
+                        {rowData.orderFrom}
+                    </td>
+
+                    <td className="px-6 py-4">
+                        {rowData.orderTo}
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                        {rowData.quantity}
+                    </td>
+
+                    <td className="px-6 py-4">
+                        {rowData.total}
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                        {rowData.orderedAt}
+                    </td>
+
+                    <td className="px-6 py-4 text-right">
+                        <Link href={`/orders/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                            <FontAwesomeIcon icon={faEye} />
+                        </Link>
+                        <Link href={`/orders/update/${rowData.orderId}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </Link>
+                        <Link href="" onClick={() => onClickDeleteOrder(rowData)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2">
+                            <FontAwesomeIcon icon={faTrash} />
+                        </Link>
+                    </td>
+
+                </tr>
+            </tbody>
+        
+        </>
+    }
 
     // const { data } = useQuery<OrderGridResponse>(
     //     {
@@ -203,7 +243,7 @@ const LoginPage: Page = () => {
                 </thead>
 
                 {orderList && orderList.slice(((currentPage - 1) * 5), ((currentPage - 1) * 5) + 5).map((item, index) => (
-                    <OrderTable key={index} rowNumber={index} rowData={item} currentPage={currentPage}/>
+                    orderTable(index, item, currentPage)
                 ))}
                 
                 </table>
@@ -231,6 +271,7 @@ const LoginPage: Page = () => {
                     </li>
                 </ul>
             </div>
+            {contextHolder}
 
         </>
 }
