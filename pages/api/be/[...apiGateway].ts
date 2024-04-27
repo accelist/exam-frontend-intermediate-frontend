@@ -23,7 +23,7 @@ server.on('proxyReq', (proxyReq, req) => {
     }
     proxyReq.removeHeader('cookie');
     // console.log(JSON.stringify(proxyReq.getHeaders(), null, 4));
-    console.log('API Proxy:', req.url, '-->', AppSettings.current.backendApiHost + urlRewrite);
+    console.log('API Proxy:', req.url, '-->', AppSettings.current.backendApiHostCustom + urlRewrite);
 });
 
 const apiGateway = async (req: NextApiRequest, res: NextApiResponse) => {

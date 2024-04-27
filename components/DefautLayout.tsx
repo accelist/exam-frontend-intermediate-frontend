@@ -123,8 +123,7 @@ const DefaultLayout: React.FC<{
                 label: 'Sign in',
                 icon: <FontAwesomeIcon icon={faSignIn}></FontAwesomeIcon>,
                 onClick: () => {
-                    nProgress.start();
-                    signIn('oidc');
+                    router.push("/login");
                 }
             });
         }
